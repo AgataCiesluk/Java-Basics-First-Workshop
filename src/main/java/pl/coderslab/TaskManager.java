@@ -1,6 +1,8 @@
 package pl.coderslab;
 
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -8,19 +10,29 @@ import java.util.Scanner;
 
 public class TaskManager {
 
+
+    private static String[][] tasks;
+
     public static void main(String[] args) {
-        tasks();
+        tasks = tasks();
         availableOptions();
 
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
+        String input;
+        do {
+        input = scanner.nextLine();
         switch (input) {
             case "add":
                 addTask();
+                availableOptions();
+                break;
+            case "exit":
                 break;
             default:
                 System.out.println("Please select a correct option.");
-        }
+        }} while (input.equals("add"));
+
+        
 
 
     }
@@ -65,7 +77,7 @@ public class TaskManager {
         return tasks;
     }
 
-    public static String[][] addTask() {
+    public static void addTask() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please add task description");
         String taskDescript = scanner.nextLine();
@@ -76,16 +88,14 @@ public class TaskManager {
         System.out.println("Is your task important? true/false");
         String importance = scanner.nextLine();
 
-        int tasksArraylength = tasks().length;
+        int tasksArraylength = tasks.length;
         String [] newLine = {taskDescript, " " + dueDate, " " + importance};
-        String [][] addedTask = Arrays.copyOf(tasks(), (tasksArraylength + 1));
-        addedTask[tasks().length] = Arrays.copyOf(newLine, newLine.length);
+        String [][] addedTask = Arrays.copyOf(tasks, (tasksArraylength + 1));
+        addedTask[tasks.length] = Arrays.copyOf(newLine, newLine.length);
+        tasks = addedTask;
 
-//      quick check if String [][] addedTask has been populated correctly
-        System.out.println(Arrays.deepToString(addedTask));
-        System.out.println(Arrays.deepToString(tasks()));
-
-        return addedTask;
+//      quick check if String [][] addedTask has been populated correctly as well as tasks
+//        System.out.println(Arrays.deepToString(tasks));
         }
 
     }
