@@ -27,12 +27,27 @@ public class TaskManager {
                 availableOptions();
                 break;
             case "exit":
+            case "remove":
+            case "list":
                 break;
             default:
                 System.out.println("Please select a correct option.");
-        }} while (input.equals("add"));
+        }
+        switch (input) {
+            case "list":
+                listTasks();
+                availableOptions();
+                break;
+            case "exit":
+            case "remove":
+            case "add":
+                break;
+            default:
+                System.out.println("Please select a correct option.");
+                }
+        } while (input.equals("add") || input.equals("remove") || input.equals("list"));
 
-        
+
 
 
     }
@@ -97,6 +112,17 @@ public class TaskManager {
 //      quick check if String [][] addedTask has been populated correctly as well as tasks
 //        System.out.println(Arrays.deepToString(tasks));
         }
+    public static void listTasks() {
+        for (int i = 0; i < tasks.length; i++) {
+            System.out.print(i + " : ");
+            for (int j = 0; j < tasks[i].length; j++) {
+                System.out.print(tasks[i][j]);
+                if (j == tasks[i].length - 1) {
+                    System.out.print(System.lineSeparator());
+                }
+            }
+        }
+    }
 
     }
 
