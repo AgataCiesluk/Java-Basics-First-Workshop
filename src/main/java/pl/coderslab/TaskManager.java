@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import static pl.coderslab.ConsoleColors.*;
+
 public class TaskManager {
 
 
@@ -26,25 +28,18 @@ public class TaskManager {
                 addTask();
                 availableOptions();
                 break;
-            case "exit":
-            case "remove":
-            case "list":
-                break;
-            default:
-                System.out.println("Please select a correct option.");
-        }
-        switch (input) {
             case "list":
                 listTasks();
                 availableOptions();
                 break;
-            case "exit":
             case "remove":
-            case "add":
+                removeTask();
+                availableOptions();
+            case "exit":
                 break;
             default:
-                System.out.println("Please select a correct option.");
-                }
+                System.out.println("Please rerun an app and select a correct option.");
+        }
         } while (input.equals("add") || input.equals("remove") || input.equals("list"));
 
 
@@ -53,10 +48,10 @@ public class TaskManager {
     }
 
     public static void availableOptions() {
-        System.out.println(ConsoleColors.BLUE + "Please select an option: ");
+        System.out.println(BLUE + "Please select an option: " + RESET);
         String[] options = {"add", "remove", "list", "exit"};
         for (String option : options) {
-            System.out.println(ConsoleColors.WHITE + option);
+            System.out.println(option);
         }
     }
 
@@ -100,8 +95,11 @@ public class TaskManager {
         System.out.println("Please add task due date");
         String dueDate = scanner.nextLine();
 
+        String importance;
+        do {
         System.out.println("Is your task important? true/false");
-        String importance = scanner.nextLine();
+        importance = scanner.nextLine();
+        } while (!importance.equals("true") && !importance.equals("false"));
 
         int tasksArraylength = tasks.length;
         String [] newLine = {taskDescript, " " + dueDate, " " + importance};
@@ -112,6 +110,7 @@ public class TaskManager {
 //      quick check if String [][] addedTask has been populated correctly as well as tasks
 //        System.out.println(Arrays.deepToString(tasks));
         }
+
     public static void listTasks() {
         for (int i = 0; i < tasks.length; i++) {
             System.out.print(i + " : ");
@@ -120,6 +119,31 @@ public class TaskManager {
                 if (j == tasks[i].length - 1) {
                     System.out.print(System.lineSeparator());
                 }
+            }
+        }
+    }
+
+    public static void removeTask() {
+        if (tasks.length == 0) {
+            System.out.println("List of tasks is empty. Nothing to remove.");
+        } else {
+
+            Scanner scanner = new Scanner(System.in);
+            int taskNumber;
+            do {
+                System.out.println("Please select number to remove. If you don't want to remove anything and go back to options menu, type: -1.");
+                String wrongInput;
+
+                while (!scanner.hasNextInt()) {
+                    wrongInput = scanner.nextLine();
+                    System.out.println("Incorrect value '" + wrongInput + "'. Please select number to remove from 0 to " + (tasks.length - 1));
+                }
+                taskNumber = scanner.nextInt();
+
+            } while (taskNumber < -1 || taskNumber >= tasks.length);
+
+            if (taskNumber != -1) {
+                tasks = ArrayUtils.remove(tasks, taskNumber);
             }
         }
     }
