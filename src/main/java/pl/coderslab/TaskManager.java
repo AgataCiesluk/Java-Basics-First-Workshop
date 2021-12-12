@@ -17,31 +17,33 @@ public class TaskManager {
 
     public static void main(String[] args) {
         tasks = tasks();
-        availableOptions();
 
         Scanner scanner = new Scanner(System.in);
         String input;
-        do {
-        input = scanner.nextLine();
-        switch (input) {
-            case "add":
+        while (true) {
+            availableOptions();
+            input = scanner.nextLine();
+            switch (input) {
+                case "add":
                 addTask();
-                availableOptions();
                 break;
-            case "list":
-                listTasks();
-                availableOptions();
-                break;
-            case "remove":
-                removeTask();
-                availableOptions();
-            case "exit":
-                break;
-            default:
-                System.out.println("Please rerun an app and select a correct option.");
-        }
-        } while (input.equals("add") || input.equals("remove") || input.equals("list"));
 
+                case "list":
+                listTasks();
+                break;
+
+                case "remove":
+                removeTask();
+
+                case "exit":
+                break;
+
+                default:
+                System.out.println("Provided value: '" + input + "' is invalid. Please select a correct option.");
+            } if (input.equals("exit")) {
+            break;
+            }
+        }
 
 
 
@@ -127,7 +129,7 @@ public class TaskManager {
         if (tasks.length == 0) {
             System.out.println("List of tasks is empty. Nothing to remove.");
         } else {
-
+            listTasks();
             Scanner scanner = new Scanner(System.in);
             int taskNumber;
             do {
