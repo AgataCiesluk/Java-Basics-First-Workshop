@@ -46,7 +46,7 @@ public class TaskManager {
             }
         }
 
-        exitApp();
+        exitApp("tasks.csv", tasks);
 
     }
 
@@ -151,13 +151,13 @@ public class TaskManager {
         }
     }
 
-    public static void exitApp() {
+    public static void exitApp(String fileName, String[][] tab) {
 
         StringBuilder reading = new StringBuilder();
-        for (int i = 0; i < tasks.length; i++) {
-            for (int j = 0; j < tasks[i].length; j++) {
-                reading.append(tasks[i][j]).append(",");
-                if (j == tasks[i].length - 1) {
+        for (int i = 0; i < tab.length; i++) {
+            for (int j = 0; j < tab[i].length; j++) {
+                reading.append(tab[i][j]).append(",");
+                if (j == tab[i].length - 1) {
                     reading.deleteCharAt(reading.length() - 1);
                     reading.append(System.lineSeparator());
                 }
@@ -167,7 +167,7 @@ public class TaskManager {
         reading.deleteCharAt(reading.length() - 1);
         String newFileInput = reading.toString();
 
-        try (PrintWriter printWriter = new PrintWriter("tasks.csv")) {
+        try (PrintWriter printWriter = new PrintWriter(fileName)) {
             printWriter.print(newFileInput);
         } catch (FileNotFoundException e) {
             System.out.println("File can't be saved.");
