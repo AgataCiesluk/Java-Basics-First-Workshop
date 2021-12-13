@@ -5,6 +5,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -45,7 +46,7 @@ public class TaskManager {
             }
         }
 
-
+        exitApp();
 
     }
 
@@ -150,6 +151,31 @@ public class TaskManager {
         }
     }
 
+    public static void exitApp() {
+
+        StringBuilder reading = new StringBuilder();
+        for (int i = 0; i < tasks.length; i++) {
+            for (int j = 0; j < tasks[i].length; j++) {
+                reading.append(tasks[i][j]).append(",");
+                if (j == tasks[i].length - 1) {
+                    reading.deleteCharAt(reading.length() - 1);
+                    reading.append(System.lineSeparator());
+                }
+            }
+
+        }
+        reading.deleteCharAt(reading.length() - 1);
+        String newFileInput = reading.toString();
+
+        try (PrintWriter printWriter = new PrintWriter("tasks.csv")) {
+            printWriter.print(newFileInput);
+        } catch (FileNotFoundException e) {
+            System.out.println("File can't be saved.");
+        }
+
+        System.out.print(RED + "File has been updated. Bye, bye." + RESET);
     }
+
+}
 
 
